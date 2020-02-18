@@ -15,9 +15,9 @@ namespace PlanningPoker
 
             this.InitializeComponent();
 
-            //this.InitializeMainPage();
+            this.InitializeMainPage();
 
-            this.InitializeTestPage();
+            //this.InitializeTestPage();
         }
 
         private void InitializeMainPage()
