@@ -1,0 +1,66 @@
+# Planning Poker Pipeline
+# Build a Planning Poker project.
+# Add steps that test, sign, and distribute an app, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/xamarin
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
+  inputs:
+    versionSpec: 4.4.1
+
+- task: MSBuild@1
+  displayName: 'Restore Nuget'
+  inputs:
+    solution: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: '/t:Restore'
+
+- task: android-manifest-version@1
+  displayName: 'Bump Android Version'
+  inputs:
+    sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
+    versionCodeOption: 'buildid'
+    versionCode: '$(Build.BuildId)'
+    printFile: true
+
+- task: XamarinAndroid@1
+  displayName: 'Build PlanningPoker.Android'
+  inputs:
+    projectFile: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
+    outputDirectory: '$(build.binariesdirectory)/$(BuildConfiguration)'
+    configuration: '(buildConfiguration)'
+
+- task: AndroidSigning@3
+  displayName: 'Signing APK file'
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: 'planningpoker.keystore'
+    apksignerKeystorePassword: '$(keystore-password)'
+    apksignerKeystoreAlias: '$(key-alias)'
+    apksignerKeyPassword: '$(key-password)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.binariesdirectory)/$(BuildConfiguration)'
+
+- task: AppCenterDistribute@3
+  inputs:
+    serverEndpoint: 'AppCenter'
+    appSlug: '$(AppCenter.Slug.Android)'
+    appFile: '**/*.apk'
+    buildVersion: '1'
+    releaseNotesOption: 'input'
+    releaseNotesInput: '123123'
+    destinationType: 'groups'

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary x:Class="PlanningPoker.Styles.ColorsTheme"
+                    xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d">
+    
+    <Color x:Key="Blue">#0078C9</Color>
+    <Color x:Key="DarkBlue">#2F4562</Color>
+    <Color x:Key="LightBlue">#e0eafc</Color>
+    <Color x:Key="IceBlue">#cfdef3</Color>
+    <Color x:Key="Gray">#646464</Color>
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Charcoal">#353C51</Color>
+    
+</ResourceDictionary>

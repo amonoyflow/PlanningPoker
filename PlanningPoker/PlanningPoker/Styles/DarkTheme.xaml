@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary x:Class="PlanningPoker.Styles.DarkTheme"
+                    xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d">
+
+    <OnPlatform x:Key="FontelloFontFamily" x:TypeArguments="x:String">
+        <On Platform="Android" Value="fontello.ttf#fontello" />
+    </OnPlatform>
+
+    <Style x:Key="MasterDetailBackgroundStyle" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{DynamicResource Charcoal}" />
+    </Style>
+
+    <Style x:Key="MasterDetailMenuStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource White}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="FontSize">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <OnPlatform.iOS>18</OnPlatform.iOS>
+                    <OnPlatform.Android>18</OnPlatform.Android>
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+  <Style x:Key="MasterDetailMenuContainerStyle" TargetType="StackLayout">
+    <Setter Property="Orientation" Value="Vertical" />
+    <Setter Property="Padding" Value="30,0,0,0" />
+    <Setter Property="VerticalOptions" Value="FillAndExpand" />
+    <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+    <Setter Property="Spacing" Value="15" />
+  </Style>
+
+    <Style x:Key="CardSelectionBarBackgroundColor" TargetType="NavigationPage">
+        <Setter Property="BackgroundColor" Value="{DynamicResource DarkBlue}" />
+    </Style>
+
+    <Style x:Key="SelectedCardLabelStyle" TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" Value="{DynamicResource White}" />
+        <Setter Property="FontSize">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:Double">
+                    <OnPlatform.iOS>140</OnPlatform.iOS>
+                    <OnPlatform.Android>140</OnPlatform.Android>
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SmallCardStyle" TargetType="Button">
+        <Setter Property="HeightRequest" Value="70" />
+        <Setter Property="WidthRequest" Value="50" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="TextColor" Value="{DynamicResource White}" />
+        <Setter Property="BorderColor" Value="{DynamicResource Blue}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+</ResourceDictionary>

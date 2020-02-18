@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\cards.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\cards.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlanningPoker.Managers.Entities\PlanningPoker.Managers.Entities.csproj" />
+    <ProjectReference Include="..\PlanningPoker.Repositories.DataObjects\PlanningPoker.Repositories.DataObjects.csproj" />
+  </ItemGroup>
+
+</Project>

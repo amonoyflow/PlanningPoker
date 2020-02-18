@@ -4,4 +4,4 @@ A handy mobile application for Android and iOS replacing traditional physical po
 
 ## Overview
 
-Planning Poker Mobile is created using Xamarin Forms.
+Planning Poker Mobile is created using Xamarin Forms.s

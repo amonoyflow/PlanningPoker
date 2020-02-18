@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage x:Class="PlanningPoker.Views.HomeView"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                  xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+                  xmlns:enums="clr-namespace:PlanningPoker.Common.Enums;assembly=PlanningPoker.Common"
+                  xmlns:constants="clr-namespace:PlanningPoker.Common.Constants;assembly=PlanningPoker.Common"
+                  mc:Ignorable="d">
+    
+    <MasterDetailPage.Master>
+        <ContentPage Title="Master" IconImageSource="hamburger_menu.png" Style="{DynamicResource MasterDetailBackgroundStyle}">
+            <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" Padding="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="280" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <lottie:AnimationView Grid.Row="0" Animation="background_animation.json" Loop="True" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                <Grid Grid.Row="0" BackgroundColor="#000" Opacity="0.4" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                <Label Grid.Row="0" FontFamily="{DynamicResource FontelloFontFamily}" Text="{x:Static constants:FontIcons.Cards}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#FFF" FontSize="110" />
+                <Label Grid.Row="0" Text="Planning Poker" VerticalOptions="End" HorizontalOptions="Center" TextColor="#FFF" FontSize="22" Margin="0,0,0,25" />
+
+
+                <skia:SKCanvasView Grid.Row="1" x:Name="standard_skia" PaintSurface="StandardCanvas_PaintSurface" />
+
+                <StackLayout Grid.Row="1" Style="{DynamicResource MasterDetailMenuContainerStyle}">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Item_Clicked" CommandParameter="{x:Static enums:Menus.Standard}" />
+                    </StackLayout.GestureRecognizers>
+                    <Label Style="{DynamicResource MasterDetailMenuStyle}" Text="Standard" />
+                </StackLayout>
+
+                <skia:SKCanvasView Grid.Row="2" x:Name="tshirt_skia" PaintSurface="TShirtCanvas_PaintSurface" />
+
+                <StackLayout Grid.Row="2" Style="{DynamicResource MasterDetailMenuContainerStyle}">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Item_Clicked" CommandParameter="{x:Static enums:Menus.TShirt}" />
+                    </StackLayout.GestureRecognizers>
+                    <Label Style="{DynamicResource MasterDetailMenuStyle}" Text="T-Shirt Sizes" />
+                </StackLayout>
+
+                <skia:SKCanvasView Grid.Row="3" x:Name="fibonacci_skia" PaintSurface="FibonacciCanvas_PaintSurface" />
+
+                <StackLayout Grid.Row="3" Style="{DynamicResource MasterDetailMenuContainerStyle}">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Item_Clicked" CommandParameter="{x:Static enums:Menus.Fibonacci}" />
+                    </StackLayout.GestureRecognizers>
+                    <Label Style="{DynamicResource MasterDetailMenuStyle}" Text="Fibonacci" />
+                </StackLayout>
+
+            </Grid>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+</MasterDetailPage>
