@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'vs2017-win2016'
 
 variables:
   buildConfiguration: 'Release'
@@ -26,41 +26,34 @@ steps:
     configuration: '$(BuildConfiguration)'
     msbuildArguments: '/t:Restore'
 
-- task: android-manifest-version@1
-  displayName: 'Bump Android Version'
-  inputs:
-    sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
-    versionCodeOption: 'buildid'
-    versionCode: '$(Build.BuildId)'
-    printFile: true
-
 - task: XamarinAndroid@1
-  displayName: 'Build PlanningPoker.Android'
+  displayName: 'Build PlanningPoker Android'
   inputs:
-    projectFile: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
+    projectFile: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
     outputDirectory: '$(build.binariesdirectory)/$(BuildConfiguration)'
-    configuration: '(buildConfiguration)'
+    configuration: '$(BuildConfiguration)'
 
 - task: AndroidSigning@3
-  displayName: 'Signing APK file'
+  displayName: 'Signing and aligning APK file(s) $(build.binariesdirectory)/$(BuildConfiguration)/*.apk'
   inputs:
-    apkFiles: '**/*.apk'
-    apksignerKeystoreFile: 'planningpoker.keystore'
-    apksignerKeystorePassword: '$(keystore-password)'
-    apksignerKeystoreAlias: '$(key-alias)'
-    apksignerKeyPassword: '$(key-password)'
+    apkFiles: '$(Parameters.appFiles)'
+    apksignerKeystoreFile: planningpoker.keystore
+    apksignerKeystorePassword: planningpoker
+    apksignerKeystoreAlias: planningpoker
+    apksignerKeyPassword: planningpoker
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
+  displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(build.binariesdirectory)/$(BuildConfiguration)'
+  condition: succeededOrFailed()
 
 - task: AppCenterDistribute@3
+  displayName: 'Deploy $(System.DefaultWorkingDirectory)/_PlanningPoker-Xamarin.Android-CI/drop/com.flow.planningpoker.apk to Visual Studio App Center'
   inputs:
-    serverEndpoint: 'AppCenter'
-    appSlug: '$(AppCenter.Slug.Android)'
-    appFile: '**/*.apk'
-    buildVersion: '1'
-    releaseNotesOption: 'input'
-    releaseNotesInput: '123123'
-    destinationType: 'groups'
+    serverEndpoint: AppCenter
+    appSlug: 'flow/Planning-Poker'
+    appFile: '$(System.DefaultWorkingDirectory)/_PlanningPoker-Xamarin.Android-CI/drop/com.flow.planningpoker.apk'
+    symbolsOption: Android
+    releaseNotesInput: Test
+    isSilent: false
