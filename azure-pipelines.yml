@@ -53,7 +53,7 @@ steps:
   inputs:
     serverEndpoint: AppCenter
     appSlug: 'flow/Planning-Poker'
-    appFile: '$(System.DefaultWorkingDirectory)/_PlanningPoker-Xamarin.Android-CI/drop/com.flow.planningpoker.apk'
+    appFile: '$(build.binariesdirectory)/$(BuildConfiguration)/*.apk'
     symbolsOption: Android
     releaseNotesInput: Test
     isSilent: false
