@@ -3,7 +3,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Autofac;
-using Lottie.Forms.Droid;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -28,7 +27,6 @@ namespace PlanningPoker.Droid
 
             Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
-            AnimationViewRenderer.Init();
             AutofacBootstrapper.RegisterAutofacModules();
 
             this.LoadApplication(AutofacBootstrapper.Instance.Resolve<App>());

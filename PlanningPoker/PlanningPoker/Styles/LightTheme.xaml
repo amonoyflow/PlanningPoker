@@ -41,6 +41,7 @@
     <Style x:Key="CardSelectionBarBackgroundColor" TargetType="NavigationPage">
         <Setter Property="BackgroundColor" Value="{DynamicResource IceBlue}" />
         <Setter Property="BarBackgroundColor" Value="{DynamicResource IceBlue}" />
+        <Setter Property="BarTextColor" Value="{DynamicResource Gray}" />
         <Setter Property="Title" Value="Menu" />
     </Style>
 
