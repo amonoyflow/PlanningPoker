@@ -15,15 +15,6 @@ variables:
   monoVersion: '6_4_0'
 
 steps:
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.4.1'
-  inputs:
-    versionSpec: 4.4.1
-
-- task: Boots@1
-  displayName: Install Xamarin.Android Mono
-  inputs:
-    uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
 
 - task: UseDotNet@2
   displayName: Use .Net Core sdk 3.0.x
@@ -32,10 +23,21 @@ steps:
     version: '3.0.x'
 
 - task: Bash@3
+  displayName: Bash script copy Xamarin Android mono
   inputs:
     targetType: 'inline'
     script: |
-      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(monoVersion)
+      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.3.1'
+  inputs:
+    versionSpec: 5.3.1
+
+- task: Boots@1
+  displayName: Install Xamarin.Android Mono 6.4
+  inputs:
+    uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
 
 - task: MSBuild@1
   displayName: 'Restore Nuget'
