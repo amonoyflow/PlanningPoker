@@ -29,8 +29,6 @@ steps:
     script: |
       sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)
 
-
-
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 5.3.1'
   inputs:
@@ -40,6 +38,14 @@ steps:
   displayName: Install Xamarin.Android Mono 6.4
   inputs:
     uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
+
+- task: android-manifest-version@1
+  inputs:
+    sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
+    versionCodeOption: 'buildid'
+    versionCode: '$(Build.BuildId)'
+    versionCodeOffset: '1'
+    printFile: true
 
 - task: MSBuild@1
   displayName: 'Restore Nuget'
@@ -75,7 +81,6 @@ steps:
     serverEndpoint: 'AppCenter'
     appSlug: '$(appSlug)'
     appFile: '$(outputDirectory)/*.apk'
-    buildVersion: '$(majorVersion).$(minorVersion).$(patchVersion)$(rev:.r)'
     symbolsOption: 'Android'
     releaseNotesOption: 'input'
     releaseNotesInput: 'Test'
