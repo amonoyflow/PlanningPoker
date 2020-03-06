@@ -40,10 +40,11 @@ steps:
     uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
 
 - task: android-manifest-version@1
+  displayName: 'Increment Android version'
   inputs:
     sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
     versionCodeOption: 'buildid'
-    versionCode: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
+    versionCode: '$(Build.BuildId)'
     versionName: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
     printFile: true
 
