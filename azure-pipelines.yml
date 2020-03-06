@@ -44,7 +44,6 @@ steps:
     sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
     versionCodeOption: 'buildid'
     versionCode: '$(Build.BuildId)'
-    versionCodeOffset: '1'
     printFile: true
 
 - task: MSBuild@1
