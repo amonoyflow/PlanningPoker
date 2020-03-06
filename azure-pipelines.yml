@@ -7,53 +7,82 @@ trigger:
 - master
 
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: 'macOs-latest'
 
 variables:
   buildConfiguration: 'Release'
   outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+  monoVersion: '6_4_0'
 
 steps:
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.4.1'
+
+- task: UseDotNet@2
+  displayName: Use .Net Core sdk 3.0.x
   inputs:
-    versionSpec: 4.4.1
+    packageType: 'sdk'
+    version: '3.0.x'
+
+- task: Bash@3
+  displayName: Bash script copy Xamarin Android mono
+  inputs:
+    targetType: 'inline'
+    script: |
+      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.3.1'
+  inputs:
+    versionSpec: 5.3.1
+
+- task: Boots@1
+  displayName: Install Xamarin.Android Mono 6.4
+  inputs:
+    uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
+
+- task: android-manifest-version@1
+  inputs:
+    sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
+    versionCodeOption: 'buildid'
+    versionCode: '$(Build.BuildId)'
+    printFile: true
 
 - task: MSBuild@1
   displayName: 'Restore Nuget'
   inputs:
     solution: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
-    configuration: '$(BuildConfiguration)'
+    configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:Restore'
 
 - task: XamarinAndroid@1
   displayName: 'Build PlanningPoker Android'
   inputs:
     projectFile: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
-    outputDirectory: '$(build.binariesdirectory)/$(BuildConfiguration)'
-    configuration: '$(BuildConfiguration)'
+    outputDirectory: '$(outputDirectory)'
+    configuration: '$(buildConfiguration)'
 
 - task: AndroidSigning@3
-  displayName: 'Signing and aligning APK file(s) $(build.binariesdirectory)/$(BuildConfiguration)/*.apk'
+  displayName: 'Signing and aligning APK file(s)'
   inputs:
-    apkFiles: '$(build.binariesdirectory)/$(BuildConfiguration)/*.apk'
+    apkFiles: '$(outputDirectory)/*.apk'
     apksignerKeystoreFile: planningpoker.keystore
-    apksignerKeystorePassword: planningpoker
-    apksignerKeystoreAlias: planningpoker
-    apksignerKeyPassword: planningpoker
+    apksignerKeystorePassword: '$(keystorePassword)'
+    apksignerKeystoreAlias: '$(keystoreAlias)'
+    apksignerKeyPassword: '$(keyPassword)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
-    PathtoPublish: '$(build.binariesdirectory)/$(BuildConfiguration)'
-  condition: succeededOrFailed()
+    PathtoPublish: '$(outputDirectory)'
 
 - task: AppCenterDistribute@3
-  displayName: 'Deploy $(System.DefaultWorkingDirectory)/_PlanningPoker-Xamarin.Android-CI/drop/com.flow.planningpoker.apk to Visual Studio App Center'
+  displayName: 'Deploy planningpoker.apk to Visual Studio App Center'
   inputs:
-    serverEndpoint: AppCenter
-    appSlug: 'flow/Planning-Poker'
-    appFile: '$(build.binariesdirectory)/$(BuildConfiguration)/*.apk'
-    symbolsOption: Android
-    releaseNotesInput: Test
+    serverEndpoint: 'AppCenter'
+    appSlug: '$(appSlug)'
+    appFile: '$(outputDirectory)/*.apk'
+    buildVersion: '$(Build.BuildId)'
+    symbolsOption: 'Android'
+    releaseNotesOption: 'input'
+    releaseNotesInput: 'Test'
+    destinationType: 'groups'
     isSilent: false
