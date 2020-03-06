@@ -81,6 +81,7 @@ steps:
     serverEndpoint: 'AppCenter'
     appSlug: '$(appSlug)'
     appFile: '$(outputDirectory)/*.apk'
+    buildVersion: '$(Build.BuildId)'
     symbolsOption: 'Android'
     releaseNotesOption: 'input'
     releaseNotesInput: 'Test'
