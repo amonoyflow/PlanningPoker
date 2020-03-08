@@ -46,6 +46,11 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:Restore'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(outputDirectory)'
+
 - task: XamariniOS@2
   inputs:
     solutionFile: 'PlanningPoker/PlanningPoker.iOS/PlanningPoker.iOS.csproj'
@@ -53,3 +58,16 @@ steps:
     packageApp: false
     buildForSimulator: true
     runNugetRestore: false
+
+- task: AppCenterDistribute@3
+  displayName: 'Deploy planningpoker.apk to Visual Studio App Center'
+  inputs:
+    serverEndpoint: 'AppCenter'
+    appSlug: '$(appSlug)'
+    appFile: '$(outputDirectory)/*.apk'
+    buildVersion: '$(Build.BuildId)'
+    symbolsOption: 'Android'
+    releaseNotesOption: 'input'
+    releaseNotesInput: 'Test'
+    destinationType: 'groups'
+    isSilent: false
