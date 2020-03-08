@@ -23,11 +23,11 @@ steps:
     version: '3.0.x'
 
 - task: Bash@3
-  displayName: Bash script copy Xamarin Android mono
+  displayName: Bash script copy Xamarin iOS mono
   inputs:
     targetType: 'inline'
     script: |
-      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)
+      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(monoVersion)
 
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 5.3.1'
@@ -35,14 +35,14 @@ steps:
     versionSpec: 5.3.1
 
 - task: Boots@1
-  displayName: Install Xamarin.Android Mono 6.4
+  displayName: Install Xamarin.iOS Mono 6.4
   inputs:
     uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
 
 - task: MSBuild@1
   displayName: 'Restore Nuget'
   inputs:
-    solution: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
+    solution: PlanningPoker/PlanningPoker.iOS/PlanningPoker.iOS.csproj
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:Restore'
 
