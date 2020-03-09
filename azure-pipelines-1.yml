@@ -46,11 +46,6 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:Restore'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(outputDirectory)'
-
 - task: XamariniOS@2
   inputs:
     solutionFile: 'PlanningPoker/PlanningPoker.iOS/PlanningPoker.iOS.csproj'
