@@ -3,7 +3,6 @@ resources:
     - repository: template_repo
       type: github
       name: amonoyflow/xamarin-pipeline-templates
-      ref: refs/tags/v0.1.0
       endpoint: Pipeline_Templates
 
 variables:
