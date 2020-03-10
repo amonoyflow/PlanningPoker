@@ -1,90 +1,31 @@
-# Planning Poker Pipeline
-# Build a Planning Poker project.
-# Add steps that test, sign, and distribute an app, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/xamarin
-
 trigger:
 - master
 
 pool:
-  vmImage: 'macOs-latest'
+  vmImage: 'macos-latest'
 
 variables:
-  buildConfiguration: 'Release'
-  outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
-  monoVersion: '6_4_0'
+  - group: android-pipeline
 
-steps:
+stages:
+    - stage: Build
+      displayName: Build stage
+      jobs:
+          - template: xamarin-pipeline-templates/xamarin-android-build.yml
+            parameters:
+                environment: 'preproduction'
+                buildConfiguration: '$(buildConfiguration)'
+                outputDirectory: '$(outputDirectory)'
+                keystoreFile: 'planningpoker.keystore'
+                keystorePassword: $(keystore.password)
+                keystoreAlias: $(keystore.alias)
+                keyPassword: $(key.password)
 
-- task: UseDotNet@2
-  displayName: Use .Net Core sdk 3.0.x
-  inputs:
-    packageType: 'sdk'
-    version: '3.0.x'
-
-- task: Bash@3
-  displayName: Bash script copy Xamarin Android mono
-  inputs:
-    targetType: 'inline'
-    script: |
-      sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)
-
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 5.3.1'
-  inputs:
-    versionSpec: 5.3.1
-
-- task: Boots@1
-  displayName: Install Xamarin.Android Mono 6.4
-  inputs:
-    uri: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
-
-- task: android-manifest-version@1
-  displayName: 'Increment Android version'
-  inputs:
-    sourcePath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
-    versionCodeOption: 'buildid'
-    versionCode: '$(Build.BuildId)'
-    versionName: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
-    printFile: true
-
-- task: MSBuild@1
-  displayName: 'Restore Nuget'
-  inputs:
-    solution: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:Restore'
-
-- task: XamarinAndroid@1
-  displayName: 'Build PlanningPoker Android'
-  inputs:
-    projectFile: PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj
-    outputDirectory: '$(outputDirectory)'
-    configuration: '$(buildConfiguration)'
-
-- task: AndroidSigning@3
-  displayName: 'Signing and aligning APK file(s)'
-  inputs:
-    apkFiles: '$(outputDirectory)/*.apk'
-    apksignerKeystoreFile: planningpoker.keystore
-    apksignerKeystorePassword: '$(keystorePassword)'
-    apksignerKeystoreAlias: '$(keystoreAlias)'
-    apksignerKeyPassword: '$(keyPassword)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(outputDirectory)'
-
-- task: AppCenterDistribute@3
-  displayName: 'Deploy planningpoker.apk to Visual Studio App Center'
-  inputs:
-    serverEndpoint: 'AppCenter'
-    appSlug: '$(appSlug)'
-    appFile: '$(outputDirectory)/*.apk'
-    buildVersion: '$(Build.BuildId)'
-    symbolsOption: 'Android'
-    releaseNotesOption: 'input'
-    releaseNotesInput: 'Test'
-    destinationType: 'groups'
-    isSilent: false
+    - stage: Distribute
+      displayName: Distribute stage
+      jobs:
+          - template: xamarin-pipeline-templates/xamarin-android-distribute.yml
+            parameters:
+                env: 'preproduction'
+                outputDirectory: '$(outputDirectory)'
+                appSlug: '$(appSlug)'
