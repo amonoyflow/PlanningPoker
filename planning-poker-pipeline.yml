@@ -1,0 +1,33 @@
+resources:
+  repositories:
+    - repository: xamarin_pipeline_templates
+      type: github
+      name: amonoyflow/xamarin-pipeline-templates
+      ref: refs/tags/v0.1.0
+      endpoint: Pipeline-Templates
+
+variables:
+  - group: android-pipeline
+
+stages:
+    - stage: Build
+      displayName: Build stage
+      jobs:
+          - template: xamarin-pipeline-templates/xamarin-android-build.yml
+            parameters:
+                environment: 'preproduction'
+                buildConfiguration: '$(buildConfiguration)'
+                outputDirectory: '$(outputDirectory)'
+                keystoreFile: 'planningpoker.keystore'
+                keystorePassword: $(keystore.password)
+                keystoreAlias: $(keystore.alias)
+                keyPassword: $(key.password)
+
+    - stage: Distribute
+      displayName: Distribute stage
+      jobs:
+          - template: xamarin-pipeline-templates/xamarin-android-distribute.yml
+            parameters:
+                env: 'preproduction'
+                outputDirectory: '$(outputDirectory)'
+                appSlug: '$(appSlug)'
