@@ -5,6 +5,9 @@ resources:
       name: amonoyflow/xamarin-pipeline-templates
       endpoint: Pipeline_Templates
 
+pool:
+  vmImage: 'macos-latest'
+
 variables:
   - group: android-pipeline
 
