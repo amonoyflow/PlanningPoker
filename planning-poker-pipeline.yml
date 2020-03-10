@@ -4,7 +4,7 @@ resources:
       type: github
       name: amonoyflow/xamarin-pipeline-templates
       ref: refs/tags/v0.1.0
-      endpoint: github.com_amonoyflow
+      endpoint: Azure_Pipeline
 
 variables:
   - group: android-pipeline
