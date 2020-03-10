@@ -1,6 +1,6 @@
 resources:
   repositories:
-    - repository: Azure_Pipeline
+    - repository: amonoyflow.xamarin-pipeline-templates
       type: github
       name: amonoyflow/xamarin-pipeline-templates
       ref: refs/tags/v0.1.0
