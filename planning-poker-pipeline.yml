@@ -22,11 +22,11 @@ stages:
                 keystoreAlias: $(keystore.alias)
                 keyPassword: $(key.password)
 
-    - stage: Distribute
-      displayName: Distribute stage
-      jobs:
-          - template: xamarin-android-distribute.yml@template_repo
-            parameters:
-                env: 'preproduction'
-                outputDirectory: '$(outputDirectory)'
-                appSlug: '$(appSlug)'
+    # - stage: Distribute
+    #   displayName: Distribute stage
+    #   jobs:
+    #       - template: xamarin-android-distribute.yml@template_repo
+    #         parameters:
+    #             env: 'preproduction'
+    #             outputDirectory: '$(outputDirectory)'
+    #             appSlug: '$(appSlug)'
