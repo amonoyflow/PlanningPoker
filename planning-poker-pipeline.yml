@@ -12,7 +12,7 @@ stages:
     - stage: Build
       displayName: Build stage
       jobs:
-          - template: xamarin-pipeline-templates/xamarin-android-build.yml@template_repo
+          - template: xamarin-android-build.yml@template_repo
             parameters:
                 environment: 'preproduction'
                 buildConfiguration: '$(buildConfiguration)'
@@ -25,7 +25,7 @@ stages:
     - stage: Distribute
       displayName: Distribute stage
       jobs:
-          - template: xamarin-pipeline-templates/xamarin-android-distribute.yml@template_repo
+          - template: xamarin-android-distribute.yml@template_repo
             parameters:
                 env: 'preproduction'
                 outputDirectory: '$(outputDirectory)'
