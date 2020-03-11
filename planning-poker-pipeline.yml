@@ -17,10 +17,20 @@ stages:
       jobs:
           - template: xamarin-android-build.yml@template_repo
             parameters:
-                environment: 'preproduction'
+                environment: 'PreProduction'
                 buildConfiguration: '$(buildConfiguration)'
                 outputDirectory: '$(outputDirectory)'
                 keystoreFile: 'planningpoker.keystore'
                 keystorePassword: $(keystore.password)
                 keystoreAlias: $(keystore.alias)
                 keyPassword: $(key.password)
+                projectPath: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
+
+    - stage: Distribute
+      displayName: Distribute stage
+      jobs:
+        - template: xamarin-android-distribute.yml@template_repo
+          parameters:
+            environment: PreProduction
+            outputDirectory: '$(outputDirectory)'
+            appSlug: '$(appSlug)'
