@@ -26,7 +26,6 @@ stages:
                 keyPassword: $(key.password)
                 netCoreVersion: '3.0.x'
                 nugetVersion: '5.3.1'
-                manifestPath: 'PlanningPoker/PlanningPoker.Android/Properties/AndroidManifest.xml'
                 version: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
 
     - stage: Distribute
