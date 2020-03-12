@@ -28,11 +28,11 @@ stages:
                 netCoreVersion: '3.0.x'
                 nugetVersion: '5.3.1'
 
-    - stage: Distribute
-      displayName: Distribute stage
-      jobs:
-        - template: xamarin-android-distribute.yml@templates
-          parameters:
-            environment: PreProduction
-            outputDirectory: '$(outputDirectory)'
-            appSlug: '$(appSlug)'
+    # - stage: Distribute
+    #   displayName: Distribute stage
+    #   jobs:
+    #     - template: xamarin-android-distribute.yml@templates
+    #       parameters:
+    #         environment: PreProduction
+    #         outputDirectory: '$(outputDirectory)'
+    #         appSlug: '$(appSlug)'
