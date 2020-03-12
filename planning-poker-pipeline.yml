@@ -1,6 +1,6 @@
 resources:
   repositories:
-    - repository: template_repo
+    - repository: template
       type: github
       name: amonoyflow/xamarin-pipeline-templates
       endpoint: Pipeline_Templates
@@ -15,7 +15,7 @@ stages:
     - stage: Build
       displayName: Build stage
       jobs:
-          - template: xamarin-android-build.yml@template_repo
+          - template: xamarin-android-build.yml@template
             parameters:
                 environment: 'PreProduction'
                 buildConfiguration: '$(buildConfiguration)'
@@ -29,7 +29,7 @@ stages:
     - stage: Distribute
       displayName: Distribute stage
       jobs:
-        - template: xamarin-android-distribute.yml@template_repo
+        - template: xamarin-android-distribute.yml@template
           parameters:
             environment: PreProduction
             outputDirectory: '$(outputDirectory)'
