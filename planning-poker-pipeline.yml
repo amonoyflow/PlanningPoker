@@ -17,7 +17,7 @@ stages:
       jobs:
           - template: xamarin-android-build.yml@templates
             parameters:
-                environment: 'PreProduction'
+                environment: 'preproduction'
                 buildConfiguration: '$(buildConfiguration)'
                 outputDirectory: '$(outputDirectory)'
                 keystoreFile: 'planningpoker.keystore'
@@ -33,6 +33,6 @@ stages:
       jobs:
         - template: xamarin-android-distribute.yml@templates
           parameters:
-            environment: PreProduction
+            environment: preproduction
             outputDirectory: '$(outputDirectory)'
             appSlug: '$(appSlug)'
