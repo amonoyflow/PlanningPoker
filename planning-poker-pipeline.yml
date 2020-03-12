@@ -9,7 +9,7 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
-  - group: android-pipeline
+  appcenter-deploy: $(deploy)
 
 stages:
     - stage: Build
@@ -18,8 +18,8 @@ stages:
           - template: xamarin-android-build.yml@templates
             parameters:
                 projectName: 'planningpoker'
-                buildConfiguration: '$(buildConfiguration)'
-                outputDirectory: '$(outputDirectory)'
+                buildConfiguration: 'Release'
+                outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
                 keystoreFile: 'planningpoker.keystore'
                 keystorePassword: $(keystore.password)
                 keystoreAlias: $(keystore.alias)
@@ -30,10 +30,10 @@ stages:
 
     - stage: Distribute
       displayName: Distribute stage
-      condition: and(succeeded(), eq($(deploy), 'true'))
+      condition: and(succeeded(), eq(variables['appcenter-deploy'], 'true'))
       jobs:
         - template: xamarin-android-distribute.yml@templates
           parameters:
             projectName: planningpoker
-            outputDirectory: '$(outputDirectory)'
+            outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
             appSlug: '$(appSlug)'
