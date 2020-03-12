@@ -8,9 +8,6 @@ resources:
 pool:
   vmImage: 'macos-latest'
 
-variables:
-  appcenter-deploy: $(deploy)
-
 stages:
     - stage: Build
       displayName: Build stage
@@ -30,7 +27,7 @@ stages:
 
     - stage: Distribute
       displayName: Distribute stage
-      condition: and(succeeded(), eq(variables['appcenter-deploy'], 'true'))
+      condition: and(succeeded(), eq(variables['deploy'], 'true'))
       jobs:
         - template: xamarin-android-distribute.yml@templates
           parameters:
