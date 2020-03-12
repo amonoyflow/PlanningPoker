@@ -14,6 +14,11 @@ variables:
 stages:
     - stage: Build
       displayName: Build stage
+      dependsOn: $(deployToAppCenter)
+      variables:
+      - name: deploy_enabled
+        value: false
+
       jobs:
           - template: xamarin-android-build.yml@templates
             parameters:
@@ -30,6 +35,7 @@ stages:
 
     - stage: Distribute
       displayName: Distribute stage
+      condition: and(succeeded(), eq(variables['State'], 'Production'))
       jobs:
         - template: xamarin-android-distribute.yml@templates
           parameters:
