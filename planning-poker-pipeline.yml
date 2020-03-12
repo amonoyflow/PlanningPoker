@@ -1,9 +1,9 @@
 resources:
   repositories:
-    - repository: template
+    - repository: templates
       type: github
       name: amonoyflow/xamarin-pipeline-templates
-      endpoint: Pipeline_Templates
+      endpoint: github_service_connection
 
 pool:
   vmImage: 'macos-latest'
@@ -15,7 +15,7 @@ stages:
     - stage: Build
       displayName: Build stage
       jobs:
-          - template: xamarin-android-build.yml@template
+          - template: xamarin-android-build.yml@templates
             parameters:
                 environment: 'PreProduction'
                 buildConfiguration: '$(buildConfiguration)'
@@ -25,11 +25,13 @@ stages:
                 keystoreAlias: $(keystore.alias)
                 keyPassword: $(key.password)
                 projectPath: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
+                netCoreVersion: '3.0.x'
+                nugetVersion: 5.3.1
 
     - stage: Distribute
       displayName: Distribute stage
       jobs:
-        - template: xamarin-android-distribute.yml@template
+        - template: xamarin-android-distribute.yml@templates
           parameters:
             environment: PreProduction
             outputDirectory: '$(outputDirectory)'
