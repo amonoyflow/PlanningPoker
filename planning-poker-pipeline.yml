@@ -9,6 +9,7 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
+  test: 
   - group: android-pipeline
 
 stages:
@@ -24,9 +25,9 @@ stages:
                 keystorePassword: $(keystore.password)
                 keystoreAlias: $(keystore.alias)
                 keyPassword: $(key.password)
-                projectPath: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
                 netCoreVersion: '3.0.x'
                 nugetVersion: '5.3.1'
+                version: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
 
     - stage: Distribute
       displayName: Distribute stage
