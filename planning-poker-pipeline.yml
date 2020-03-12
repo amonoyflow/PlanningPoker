@@ -26,7 +26,7 @@ stages:
                 keyPassword: $(key.password)
                 projectPath: 'PlanningPoker/PlanningPoker.Android/PlanningPoker.Android.csproj'
                 netCoreVersion: '3.0.x'
-                nugetVersion: 5.3.1
+                nugetVersion: '5.3.1'
 
     - stage: Distribute
       displayName: Distribute stage
