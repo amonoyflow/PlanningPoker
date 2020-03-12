@@ -9,7 +9,6 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
-  test: 
   - group: android-pipeline
 
 stages:
