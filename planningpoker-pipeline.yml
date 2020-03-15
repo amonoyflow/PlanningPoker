@@ -2,7 +2,6 @@ resources:
   repositories:
     - repository: templates
       type: github
-      name: amonoyflow/xamarin-pipeline-templates
       endpoint: github_service_connection
 
 pool:
