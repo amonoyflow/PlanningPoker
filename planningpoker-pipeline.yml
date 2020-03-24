@@ -29,7 +29,7 @@ stages:
     displayName: Distribute stage
     condition: and(succeeded(), eq(variables['deploy'], 'true'))
     jobs:
-      - template: xamarin-android-distribute.yml@templates
+      - template: xamarin-appcenter-distribute.yml@templates
         parameters:
           projectName: planningpoker
           outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
