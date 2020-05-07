@@ -11,13 +11,13 @@ Planning Poker Mobile is created using Xamarin Forms.
 <table>
     <tr>
         <td>
-            <img width="250px" height="410px" src="https://github.com/amonoyflow/city_weather/blob/master/assets/markdown/home.png">
+            <img width="250px" height="410px" src="https://github.com/amonoyflow/planning-poker/blob/master/PlanningPoker/SolutionItems/assets/tap-to-reveal.jpg">
         </td>
         <td>
-            <img width="250px" height="410px" src="https://github.com/amonoyflow/city_weather/blob/master/assets/markdown/hourly.png">
+            <img width="250px" height="410px" src="https://github.com/amonoyflow/planning-poker/blob/master/PlanningPoker/SolutionItems/assets/value.jpg">
         </td>
         <td>
-            <img width="250px" height="410px" src="https://github.com/amonoyflow/city_weather/blob/master/assets/markdown/daily.png">
+            <img width="250px" height="410px" src="https://github.com/amonoyflow/planning-poker/blob/master/PlanningPoker/SolutionItems/assets/selection.jpg">
         </td>
     </tr>
 </table>
