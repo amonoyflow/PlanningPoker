@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanningPoker.Repositories.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanningPoker.Managers.Entities", "PlanningPoker.Managers.Entities\PlanningPoker.Managers.Entities.csproj", "{42FC5216-4719-4FBB-B54D-0444924F05AF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{60688A0D-628D-4A72-85FB-39697174C394}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PlanningPoker.Shared\PlanningPoker.Shared.projitems*{807ecc20-2692-4b6a-b56b-08377a3da81e}*SharedItemsImports = 4
@@ -152,6 +154,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60688A0D-628D-4A72-85FB-39697174C394} = {2B385B7F-0346-4549-A22B-A6E20D1D8FC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {811A29F2-58D5-4F59-99EE-8CB941947E22}
