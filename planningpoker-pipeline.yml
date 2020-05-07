@@ -1,0 +1,36 @@
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: amonoyflow/xamarin-pipeline-templates
+      endpoint: github_service_connection
+
+pool:
+  vmImage: 'macos-latest'
+
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+      - template: xamarin-android-build.yml@templates
+        parameters:
+          projectName: 'planningpoker'
+          buildConfiguration: 'Release'
+          outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+          keystoreFile: 'planningpoker.keystore'
+          keystorePassword: $(keystore.password)
+          keystoreAlias: $(keystore.alias)
+          keyPassword: $(key.password)
+          netCoreVersion: '3.0.x'
+          nugetVersion: '5.3.1'
+          version: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
+
+  - stage: Distribute
+    displayName: Distribute stage
+    condition: and(succeeded(), eq(variables['deploy'], 'true'))
+    jobs:
+      - template: xamarin-appcenter-distribute.yml@templates
+        parameters:
+          projectName: planningpoker
+          outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+          appSlug: '$(appSlug)'
